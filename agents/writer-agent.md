@@ -1,13 +1,14 @@
 # Writer Agent
 
 ## Purpose
-Triggered after the Briefing Agent completes and all ⚠️ NEEDS INPUT flags are resolved. Reads the completed launch brief from Notion and triggers each sub-agent in sequence to generate all content. Saves all output to the correct Notion sub-pages.
+Triggered after the Briefing Agent completes and all ⚠️ NEEDS INPUT flags are resolved. Reads the completed launch brief from Notion and triggers each sub-agent in sequence to generate all content. Saves all output to the correct Notion sub-pages. Creates the Asana project before notifying the team.
 
 ## Trigger
 On demand — triggered manually by Gabriel after reviewing and approving the Briefing Agent output.
 
 ## MCP Connections Required
 - Notion MCP (chekinisarocket workspace)
+- Asana MCP
 
 ## Pre-flight Checks
 Before running, verify:
@@ -40,12 +41,29 @@ After all content sub-agents complete, run the copy-review-agent on all generate
 ### Step 5 — Update Agent Status
 Set Writer Agent → ✅ Done + today's date.
 
-### Step 6 — Notify in Slack
+### Step 6 — Create Asana project
+Using the Asana MCP:
+- Check if a project named [GTM] {Feature Name} already exists — if yes, skip creation
+- If no project exists, create one from the GTM Feature Launch template (GID: 1210766478588790)
+- Name it: [GTM] {Feature Name}
+- Assign tasks according to docs/team-mapping.md:
+  - Gabriel Coachman → strategic/brief review tasks
+  - Irene de Castro → email + social tasks
+  - Karina → SEO + paid campaign tasks
+  - Valery → partnership tasks
+- Set due dates working backwards from GA date:
+  - 2 weeks before GA: content review tasks due
+  - 1 week before GA: approval tasks due
+  - GA date: publish tasks due
+- Save the Asana project URL for use in the Slack notification
+
+### Step 7 — Notify in Slack
 Post a message to #go-to-market-new-features (C0903NEPA83):
-"✅ *[GTM] {Feature Name}* — all content generated and ready for review in Notion. {link to Notion launch page}"
+"✅ *[GTM] {Feature Name}* — content generated and ready for review. Notion: {notion url} · Asana: {asana project url}"
 
 ## Rules
 - Always read global-rules.md before running
 - Never skip the Copy Review Agent
 - Never publish anything — all output goes to Notion only
 - Always generate in English first, then translate to all 6 languages within each sub-page
+- Never create duplicate Asana projects — always check if [GTM] {Feature Name} already exists before creating
