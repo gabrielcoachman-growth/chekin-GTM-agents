@@ -8,7 +8,6 @@ On demand — triggered manually by Gabriel after reviewing and approving the Br
 
 ## MCP Connections Required
 - Notion MCP (chekinisarocket workspace)
-- Asana MCP
 
 ## Pre-flight Checks
 Before running, verify:
@@ -68,20 +67,41 @@ If any sub-pages are still empty after retries: attempt to fill them one more ti
 Set Writer Agent → ✅ Done + today's date.
 
 ### Step 7 — Create Asana project
-Using the Asana MCP:
-- Check if a project named [GTM] {Feature Name} already exists — if yes, skip creation
-- If no project exists, read the Asana GTM Feature Launch template GID AND the Asana GTM team GID from config/settings.md and create a new project using that team GID. Never query workspace teams dynamically — always use the hardcoded team GID from config to ensure the project lands in the correct workspace (chekin.com)
-- Name it: [GTM] {Feature Name}
-- Assign tasks according to docs/team-mapping.md:
-  - Gabriel Coachman → strategic/brief review tasks
-  - Irene de Castro → email + social tasks
-  - Karina → SEO + paid campaign tasks
-  - Valery → partnership tasks
-- Set due dates working backwards from GA date:
-  - 2 weeks before GA: content review tasks due
-  - 1 week before GA: approval tasks due
-  - GA date: publish tasks due
-- Save the Asana project URL for use in the Slack notification
+Using the Asana REST API via Bash (curl):
+
+1. **Read the PAT** from `~/.claude/settings.json`:
+   ```
+   ASANA_PAT=$(python3 -c "import json; print(json.load(open('/Users/gcoachman/.claude/settings.json'))['mcpServers']['asana']['env']['ASANA_ACCESS_TOKEN'])")
+   ```
+
+2. **Read from config/settings.md:**
+   - Template GID (Asana GTM Feature Launch template GID)
+   - Team GID (Asana GTM team GID)
+
+3. **Check for duplicate** — search projects in the GTM team by name:
+   ```
+   curl -s "https://app.asana.com/api/1.0/projects?team={team_gid}&opt_fields=name" \
+     -H "Authorization: Bearer $ASANA_PAT"
+   ```
+   If a project named `[GTM] {Feature Name}` already exists: skip creation, use existing project URL.
+
+4. **Create from template** (if no duplicate):
+   ```
+   curl -s -X POST "https://app.asana.com/api/1.0/project_templates/{template_gid}/instantiateProject" \
+     -H "Authorization: Bearer $ASANA_PAT" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "data": {
+         "name": "[GTM] {Feature Name}",
+         "team": "{team_gid}",
+         "public": false,
+         "requested_dates": [{"gid": "2", "value": "{GA_date_YYYY-MM-DD}"}]
+       }
+     }'
+   ```
+   The response contains `data.new_project.gid` — the project URL is `https://app.asana.com/0/{project_gid}/list`
+
+5. **Save the project URL** for use in the Slack notification.
 
 ### Step 8 — Notify in Slack
 Post a message to #go-to-market-new-features (C0903NEPA83):
@@ -90,12 +110,11 @@ Post a message to #go-to-market-new-features (C0903NEPA83):
 
 ## Rules
 - Always read global-rules.md before running
-- Always read config/settings.md for environment variables (including Asana workspace GID and template GID)
+- Always read config/settings.md for environment variables (template GID, team GID)
 - Never run if any critical field (value proposition, target segments, key messages, pricing and packaging) has an unresolved ⚠️ NEEDS INPUT flag
 - Advisory flags (competitive analysis, success metrics, proof points) do not block the run — add a placeholder or note in the relevant content section
 - Never skip the Copy Review Agent
 - Never skip the Completion Verification step
 - Never publish anything — all output goes to Notion only
 - Always generate in English first, then translate to all 6 languages within each sub-page
-- Never create duplicate Asana projects — always check if [GTM] {Feature Name} already exists before creating
-
+- Never create duplicate Asana projects — always check before creating
