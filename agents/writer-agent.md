@@ -33,15 +33,39 @@ For Tier 1: Run all sub-agents (email, blog, social, sales-enablement, support, 
 For Tier 2: Run (email, blog, social, seo, web-page, launch-day, measurement)
 For Tier 3: Run (email, social, launch-day)
 
-After each sub-agent completes, save output to the corresponding Notion sub-page before running the next one.
+After each sub-agent writes its output to Notion, immediately verify the sub-page is not empty before proceeding to the next sub-agent. To verify:
+- Read the Notion sub-page content
+- If the sub-page is empty or contains less than 100 characters: retry running that sub-agent once
+- If it fails again after retry: log it as ⚠️ FAILED in the 📋 Briefing Notes section and continue to the next sub-agent — do not stop the entire run
+- If verified successfully: continue to the next sub-agent
 
 ### Step 4 — Run Copy Review Agent last
 After all content sub-agents complete, run the copy-review-agent on all generated content. Apply any corrections before finalising.
 
-### Step 5 — Update Agent Status
+### Step 5 — Completion Verification
+Before marking the Writer Agent as done, read all 10 Notion sub-pages and produce a completion report:
+
+| Sub-page | Status |
+|---|---|
+| Email sequences | ✅ Filled / ⚠️ Empty |
+| Blog post | ✅ Filled / ⚠️ Empty |
+| Social posts | ✅ Filled / ⚠️ Empty |
+| Sales enablement | ✅ Filled / ⚠️ Empty |
+| Support KB | ✅ Filled / ⚠️ Empty |
+| In-app messaging | ✅ Filled / ⚠️ Empty |
+| SEO keywords | ✅ Filled / ⚠️ Empty |
+| Landing page copy | ✅ Filled / ⚠️ Empty |
+| Launch day checklist | ✅ Filled / ⚠️ Empty |
+| Measurement framework | ✅ Filled / ⚠️ Empty |
+
+Write this completion report into the 📋 Briefing Notes section of the Notion launch page.
+
+If any sub-pages are still empty after retries: attempt to fill them one more time before updating Agent Status.
+
+### Step 6 — Update Agent Status
 Set Writer Agent → ✅ Done + today's date.
 
-### Step 6 — Create Asana project
+### Step 7 — Create Asana project
 Using the Asana MCP:
 - Check if a project named [GTM] {Feature Name} already exists — if yes, skip creation
 - If no project exists, read the Asana GTM Feature Launch template GID from config/settings.md and create a new project from that template
@@ -57,14 +81,16 @@ Using the Asana MCP:
   - GA date: publish tasks due
 - Save the Asana project URL for use in the Slack notification
 
-### Step 7 — Notify in Slack
+### Step 8 — Notify in Slack
 Post a message to #go-to-market-new-features (C0903NEPA83):
-"✅ *[GTM] {Feature Name}* — content generated and ready for review. Notion: {notion url} · Asana: {asana project url}"
+"✅ *[GTM] {Feature Name}* — content generated. {N}/10 sub-pages filled. Notion: {notion url} · Asana: {asana project url}
+{If any empty: ⚠️ {N} sub-pages need attention — check Briefing Notes in Notion}"
 
 ## Rules
 - Always read global-rules.md before running
 - Always read config/settings.md for environment variables (including Asana workspace GID and template GID)
 - Never skip the Copy Review Agent
+- Never skip the Completion Verification step
 - Never publish anything — all output goes to Notion only
 - Always generate in English first, then translate to all 6 languages within each sub-page
 - Never create duplicate Asana projects — always check if [GTM] {Feature Name} already exists before creating
