@@ -7,4 +7,5 @@
 - **Supported languages:** ES, PT, DE, FR, IT, CS
 - **Asana workspace name:** chekin.com
 - **Asana workspace GID:** 1182142922072460
+- **Asana GTM team GID:** 1210827622847897 (https://app.asana.com/0/1210827622847897/overview)
 - **Asana GTM Feature Launch template GID:** 1210827660095113 (https://app.asana.com/0/project-templates/1210827660095113/list)

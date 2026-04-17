@@ -70,7 +70,7 @@ Set Writer Agent → ✅ Done + today's date.
 ### Step 7 — Create Asana project
 Using the Asana MCP:
 - Check if a project named [GTM] {Feature Name} already exists — if yes, skip creation
-- If no project exists, read the Asana GTM Feature Launch template GID from config/settings.md and create a new project from that template
+- If no project exists, read the Asana GTM Feature Launch template GID AND the Asana GTM team GID from config/settings.md and create a new project using that team GID. Never query workspace teams dynamically — always use the hardcoded team GID from config to ensure the project lands in the correct workspace (chekin.com)
 - Name it: [GTM] {Feature Name}
 - Assign tasks according to docs/team-mapping.md:
   - Gabriel Coachman → strategic/brief review tasks
@@ -98,3 +98,4 @@ Post a message to #go-to-market-new-features (C0903NEPA83):
 - Never publish anything — all output goes to Notion only
 - Always generate in English first, then translate to all 6 languages within each sub-page
 - Never create duplicate Asana projects — always check if [GTM] {Feature Name} already exists before creating
+
