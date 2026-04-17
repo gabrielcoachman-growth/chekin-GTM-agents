@@ -44,7 +44,7 @@ Set Writer Agent → ✅ Done + today's date.
 ### Step 6 — Create Asana project
 Using the Asana MCP:
 - Check if a project named [GTM] {Feature Name} already exists — if yes, skip creation
-- If no project exists, create one from the GTM Feature Launch template (GID: 1210766478588790)
+- If no project exists, read the Asana GTM Feature Launch template GID from config/settings.md and create a new project from that template
 - Name it: [GTM] {Feature Name}
 - Assign tasks according to docs/team-mapping.md:
   - Gabriel Coachman → strategic/brief review tasks
@@ -63,6 +63,7 @@ Post a message to #go-to-market-new-features (C0903NEPA83):
 
 ## Rules
 - Always read global-rules.md before running
+- Always read config/settings.md for environment variables (including Asana workspace GID and template GID)
 - Never skip the Copy Review Agent
 - Never publish anything — all output goes to Notion only
 - Always generate in English first, then translate to all 6 languages within each sub-page
