@@ -5,3 +5,5 @@
 - **Notion source of truth:** chekinisarocket workspace
 - **Launch template page ID:** 2f0d992110c6806d8bead4b909e14905
 - **Supported languages:** ES, PT, DE, FR, IT, CS
+- **Asana workspace name:** chekin.com
+- **Asana workspace GID:** 1182142922072460
