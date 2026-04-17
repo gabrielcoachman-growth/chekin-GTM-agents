@@ -65,19 +65,36 @@ Complete all fields:
 ### Step 7 — Gap check
 Scan all fields. For any field that could not be completed due to missing information, add a comment in that field: ⚠️ NEEDS INPUT: [specific question for PM]
 
-List all gaps in a new "📋 Briefing Notes" section at the bottom of the page.
+Classify each gap as **critical** or **advisory**:
+
+**Critical gaps — block the Writer Agent:**
+- Value proposition
+- Target segments / personas
+- Key messages
+- Pricing and packaging (required to write correct CTAs and email segmentation)
+
+**Advisory gaps — warn but do not block:**
+- Competitive analysis (content can be written without it; placeholder added)
+- Success metrics / KPIs (only affects Measurement Framework; not needed for asset creation)
+- Proof points (noted as missing; can be added post-launch)
+
+List all gaps — critical and advisory — in a new "📋 Briefing Notes" section at the bottom of the page. Clearly separate them:
+- "🚫 Critical (Writer Agent blocked until resolved): ..."
+- "⚠️ Advisory (Writer Agent can proceed; note in relevant content): ..."
 
 ### Step 8 — Update Agent Status
 - Set Briefing Agent → ✅ Done + today's date
-- Set Writer Agent → ⏳ Pending (ready to run once gaps are resolved)
+- If all critical fields are resolved: Set Writer Agent → ⏳ Pending (ready to run)
+- If any critical field has ⚠️ NEEDS INPUT: Leave Writer Agent → 🚫 Blocked and note which fields are blocking
 
 ## Output
-A fully completed Strategic Brief and Positioning & Messaging section in Notion, ready for Writer Agent to consume. Any missing fields are clearly flagged with ⚠️ NEEDS INPUT.
+A fully completed Strategic Brief and Positioning & Messaging section in Notion, ready for Writer Agent to consume. Any missing fields are clearly flagged with ⚠️ NEEDS INPUT and classified as critical (blocking) or advisory (non-blocking).
 
 ## Rules
 - Always read global-rules.md before running
 - Always read config/settings.md for environment variables
 - Never invent facts — only use information from the PM input or the product wiki
-- Never mark Writer Agent as ready if there are unresolved ⚠️ NEEDS INPUT flags on critical fields (value proposition, target segments, key messages)
+- Never mark Writer Agent as ready if there are unresolved ⚠️ NEEDS INPUT flags on critical fields: value proposition, target segments, key messages, pricing and packaging
+- Advisory flags (competitive analysis, success metrics, proof points) do not block the Writer Agent — they are noted with placeholders in the relevant content sections
 - Tone: professional, benefit-led, never feature-led
 - Audience: hotel and accommodation operators across Europe

@@ -1,7 +1,7 @@
 # Writer Agent
 
 ## Purpose
-Triggered after the Briefing Agent completes and all ⚠️ NEEDS INPUT flags are resolved. Reads the completed launch brief from Notion and triggers each sub-agent in sequence to generate all content. Saves all output to the correct Notion sub-pages. Creates the Asana project before notifying the team.
+Triggered after the Briefing Agent completes and all critical ⚠️ NEEDS INPUT flags are resolved. Reads the completed launch brief from Notion and triggers each sub-agent in sequence to generate all content. Saves all output to the correct Notion sub-pages. Creates the Asana project before notifying the team.
 
 ## Trigger
 On demand — triggered manually by Gabriel after reviewing and approving the Briefing Agent output.
@@ -13,10 +13,12 @@ On demand — triggered manually by Gabriel after reviewing and approving the Br
 ## Pre-flight Checks
 Before running, verify:
 - Briefing Agent status = ✅ Done
-- No ⚠️ NEEDS INPUT flags remaining in the Notion launch page
+- No ⚠️ NEEDS INPUT flags on **critical fields**: value proposition, target segments, key messages, pricing and packaging
 - GA date is set
 
-If any check fails: stop and notify Gabriel with a specific message explaining what is missing.
+Advisory flags (competitive analysis, success metrics, proof points) do not block the run — they are noted in content where relevant with appropriate placeholders.
+
+If any critical field check fails: stop and notify Gabriel with a specific message explaining which critical field is missing and what input is needed to unblock.
 
 ## Step-by-Step Instructions
 
@@ -89,6 +91,8 @@ Post a message to #go-to-market-new-features (C0903NEPA83):
 ## Rules
 - Always read global-rules.md before running
 - Always read config/settings.md for environment variables (including Asana workspace GID and template GID)
+- Never run if any critical field (value proposition, target segments, key messages, pricing and packaging) has an unresolved ⚠️ NEEDS INPUT flag
+- Advisory flags (competitive analysis, success metrics, proof points) do not block the run — add a placeholder or note in the relevant content section
 - Never skip the Copy Review Agent
 - Never skip the Completion Verification step
 - Never publish anything — all output goes to Notion only
